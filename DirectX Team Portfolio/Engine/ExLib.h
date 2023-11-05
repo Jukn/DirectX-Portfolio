@@ -33,5 +33,7 @@
 #pragma comment(lib, "libxml2-md.lib")
 #pragma comment(lib, "zlib-md.lib")
 
+#pragma comment(lib, "Engine.lib")
+
 using namespace Microsoft::WRL;					// for ComPtr
 
