@@ -5,35 +5,126 @@
       <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
       <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
     </Filter>
-    <Filter Include="헤더 파일">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
-    </Filter>
     <Filter Include="리소스 파일">
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="소스 파일\Pipeline">
+      <UniqueIdentifier>{c8989859-52c7-407e-abd9-58542b1a9049}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Pipeline\00. Geometry">
+      <UniqueIdentifier>{eda9a828-3df1-4fa0-b337-b21c68701c3b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Pipeline\01. InputAssembler">
+      <UniqueIdentifier>{b42400fb-0ea3-4227-bdd7-5d7b2acae01d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Pipeline\02. VertexShader">
+      <UniqueIdentifier>{efe3c044-6251-43ce-a67c-c46de2393340}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Pipeline\03. Rasterizer">
+      <UniqueIdentifier>{b148a5a0-f8dc-4a46-b4f4-06380661640f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Pipeline\04. PixelShader">
+      <UniqueIdentifier>{cd4947d0-b8e0-4a68-a66b-93e3a7d6bff0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Pipeline\05. OutputMerger">
+      <UniqueIdentifier>{8d55178d-e8d7-49aa-a897-68a15d6105f3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="해더 파일">
+      <UniqueIdentifier>{eb27418b-caeb-44b8-aae1-c025d5f8de9b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="해더 파일\pch">
+      <UniqueIdentifier>{7c895b9c-3f00-4d0b-b1b3-d905cd16ef5a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="해더 파일\Conven">
+      <UniqueIdentifier>{ccf95d1e-dfcb-4fdf-b38e-2bd8465b4efa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Shader">
+      <UniqueIdentifier>{dfdd7144-e743-4470-a404-d48ef0aaf1c8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="framework.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="pch.h">
-      <Filter>헤더 파일</Filter>
+    <ClInclude Include="Graphics.h">
+      <Filter>소스 파일\Pipeline</Filter>
     </ClInclude>
     <ClInclude Include="ExLib.h">
-      <Filter>헤더 파일</Filter>
+      <Filter>해더 파일</Filter>
     </ClInclude>
     <ClInclude Include="Types.h">
-      <Filter>헤더 파일</Filter>
+      <Filter>해더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="framework.h">
+      <Filter>해더 파일\pch</Filter>
+    </ClInclude>
+    <ClInclude Include="pch.h">
+      <Filter>해더 파일\pch</Filter>
+    </ClInclude>
+    <ClInclude Include="window.h">
+      <Filter>소스 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="VertexBuffer.h">
+      <Filter>소스 파일\Pipeline\01. InputAssembler</Filter>
+    </ClInclude>
+    <ClInclude Include="IndexBuffer.h">
+      <Filter>소스 파일\Pipeline\01. InputAssembler</Filter>
+    </ClInclude>
+    <ClInclude Include="InputLayout.h">
+      <Filter>소스 파일\Pipeline\01. InputAssembler</Filter>
+    </ClInclude>
+    <ClInclude Include="Convenience.h">
+      <Filter>해더 파일\Conven</Filter>
+    </ClInclude>
+    <ClInclude Include="Global.h">
+      <Filter>해더 파일\Conven</Filter>
+    </ClInclude>
+    <ClInclude Include="Struct.h">
+      <Filter>해더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Geometry.hpp">
+      <Filter>소스 파일\Pipeline\00. Geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="GeometryHelper.h">
+      <Filter>소스 파일\Pipeline\00. Geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="VertexData.h">
+      <Filter>소스 파일\Pipeline\00. Geometry</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Engine.cpp">
-      <Filter>소스 파일</Filter>
+    <ClCompile Include="Graphics.cpp">
+      <Filter>소스 파일\Pipeline</Filter>
     </ClCompile>
     <ClCompile Include="pch.cpp">
+      <Filter>해더 파일\pch</Filter>
+    </ClCompile>
+    <ClCompile Include="window.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="VertexBuffer.cpp">
+      <Filter>소스 파일\Pipeline\01. InputAssembler</Filter>
+    </ClCompile>
+    <ClCompile Include="IndexBuffer.cpp">
+      <Filter>소스 파일\Pipeline\01. InputAssembler</Filter>
+    </ClCompile>
+    <ClCompile Include="InputLayout.cpp">
+      <Filter>소스 파일\Pipeline\01. InputAssembler</Filter>
+    </ClCompile>
+    <ClCompile Include="Global.cpp">
+      <Filter>해더 파일\Conven</Filter>
+    </ClCompile>
+    <ClCompile Include="GeometryHelper.cpp">
+      <Filter>소스 파일\Pipeline\00. Geometry</Filter>
+    </ClCompile>
+    <ClCompile Include="VertexData.cpp">
+      <Filter>소스 파일\Pipeline\00. Geometry</Filter>
+    </ClCompile>
+    <ClCompile Include="Geometry.cpp">
+      <Filter>소스 파일\Pipeline\00. Geometry</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="Default.hlsl">
+      <Filter>소스 파일\Shader</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>

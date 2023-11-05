@@ -7,7 +7,24 @@
 #ifndef PCH_H
 #define PCH_H
 
-// 여기에 미리 컴파일하려는 헤더 추가
+#include <Windows.h>
+#include <string>
+#include <vector>
+#include <queue>
+#include <stack>
+#include <map>
+#include <unordered_map>
+#include <memory>
+#include <functional>
+#include <chrono>
+#include <assert.h>
+
 #include "framework.h"
+#include "ExLib.h"
+
+#include "Types.h"
+#include "Struct.h"
+#include "Convenience.h"
+#include "Global.h"
 
 #endif //PCH_H
