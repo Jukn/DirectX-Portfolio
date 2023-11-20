@@ -1,0 +1,126 @@
+﻿  KLight.cpp
+  KMapSpace.cpp
+C:\Users\kgca4021\OneDrive - nsu.ac.kr\KGCA 자료\02_제출처\최지원Maptool\MapTool_DX11\Source\Sample_Maptool\KNode.h(188,26): warning C4244: '인수': 'float'에서 '_Ty'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+          with
+          [
+              _Ty=DWORD
+          ]
+C:\Users\kgca4021\OneDrive - nsu.ac.kr\KGCA 자료\02_제출처\최지원Maptool\MapTool_DX11\Source\Sample_Maptool\KNode.h(189,26): warning C4244: '인수': 'float'에서 '_Ty'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+          with
+          [
+              _Ty=DWORD
+          ]
+C:\Users\kgca4021\OneDrive - nsu.ac.kr\KGCA 자료\02_제출처\최지원Maptool\MapTool_DX11\Source\Sample_Maptool\KNode.h(190,26): warning C4244: '인수': 'float'에서 '_Ty'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+          with
+          [
+              _Ty=DWORD
+          ]
+C:\Users\kgca4021\OneDrive - nsu.ac.kr\KGCA 자료\02_제출처\최지원Maptool\MapTool_DX11\Source\Sample_Maptool\KNode.h(191,26): warning C4244: '인수': 'float'에서 '_Ty'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+          with
+          [
+              _Ty=DWORD
+          ]
+C:\Users\kgca4021\OneDrive - nsu.ac.kr\KGCA 자료\02_제출처\최지원Maptool\MapTool_DX11\Source\Sample_Maptool\KFBXObj.h(27,1): warning C4267: '초기화 중': 'size_t'에서 'DWORD'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\kgca4021\OneDrive - nsu.ac.kr\KGCA 자료\02_제출처\최지원Maptool\MapTool_DX11\Source\Sample_Maptool\KMapSpace.cpp(34,21): warning C4477: 'swscanf_s' : 서식 문자열 '%s'에 'unsigned int' 형식의 인수가 필요하지만 variadic 인수 2의 형식이 'unsigned __int64'입니다.
+C:\Users\kgca4021\OneDrive - nsu.ac.kr\KGCA 자료\02_제출처\최지원Maptool\MapTool_DX11\Source\Sample_Maptool\KMapSpace.cpp(34,21): message : 이 인수는 버퍼 크기로 사용됩니다.
+C:\Users\kgca4021\OneDrive - nsu.ac.kr\KGCA 자료\02_제출처\최지원Maptool\MapTool_DX11\Source\Sample_Maptool\KMapSpace.cpp(38,21): warning C4477: 'swscanf_s' : 서식 문자열 '%s'에 'unsigned int' 형식의 인수가 필요하지만 variadic 인수 2의 형식이 'unsigned __int64'입니다.
+C:\Users\kgca4021\OneDrive - nsu.ac.kr\KGCA 자료\02_제출처\최지원Maptool\MapTool_DX11\Source\Sample_Maptool\KMapSpace.cpp(38,21): message : 이 인수는 버퍼 크기로 사용됩니다.
+C:\Users\kgca4021\OneDrive - nsu.ac.kr\KGCA 자료\02_제출처\최지원Maptool\MapTool_DX11\Source\Sample_Maptool\KMapSpace.cpp(50,23): warning C4477: 'swscanf_s' : 서식 문자열 '%s'에 'unsigned int' 형식의 인수가 필요하지만 variadic 인수 3의 형식이 'unsigned __int64'입니다.
+C:\Users\kgca4021\OneDrive - nsu.ac.kr\KGCA 자료\02_제출처\최지원Maptool\MapTool_DX11\Source\Sample_Maptool\KMapSpace.cpp(50,23): message : 이 인수는 버퍼 크기로 사용됩니다.
+C:\Users\kgca4021\OneDrive - nsu.ac.kr\KGCA 자료\02_제출처\최지원Maptool\MapTool_DX11\Source\Sample_Maptool\KMapSpace.cpp(91,87): warning C4244: '인수': 'UINT'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\kgca4021\OneDrive - nsu.ac.kr\KGCA 자료\02_제출처\최지원Maptool\MapTool_DX11\Source\Sample_Maptool\KMapSpace.cpp(91,28): warning C4244: '인수': 'UINT'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\kgca4021\OneDrive - nsu.ac.kr\KGCA 자료\02_제출처\최지원Maptool\MapTool_DX11\Source\Sample_Maptool\KMapSpace.cpp(90,58): warning C4244: '인수': 'UINT'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\kgca4021\OneDrive - nsu.ac.kr\KGCA 자료\02_제출처\최지원Maptool\MapTool_DX11\Source\Sample_Maptool\KMapSpace.cpp(199,65): warning C4267: '=': 'size_t'에서 'UINT'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\kgca4021\OneDrive - nsu.ac.kr\KGCA 자료\02_제출처\최지원Maptool\MapTool_DX11\Source\Sample_Maptool\KMapSpace.cpp(217,62): warning C4267: '=': 'size_t'에서 'UINT'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\kgca4021\OneDrive - nsu.ac.kr\KGCA 자료\02_제출처\최지원Maptool\MapTool_DX11\Source\Sample_Maptool\KMapSpace.cpp(233,49): warning C4267: '=': 'size_t'에서 'UINT'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  KQuadTree.cpp
+C:\Users\kgca4021\OneDrive - nsu.ac.kr\KGCA 자료\02_제출처\최지원Maptool\MapTool_DX11\Source\Sample_Maptool\KNode.h(188,26): warning C4244: '인수': 'float'에서 '_Ty'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+          with
+          [
+              _Ty=DWORD
+          ]
+C:\Users\kgca4021\OneDrive - nsu.ac.kr\KGCA 자료\02_제출처\최지원Maptool\MapTool_DX11\Source\Sample_Maptool\KNode.h(189,26): warning C4244: '인수': 'float'에서 '_Ty'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+          with
+          [
+              _Ty=DWORD
+          ]
+C:\Users\kgca4021\OneDrive - nsu.ac.kr\KGCA 자료\02_제출처\최지원Maptool\MapTool_DX11\Source\Sample_Maptool\KNode.h(190,26): warning C4244: '인수': 'float'에서 '_Ty'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+          with
+          [
+              _Ty=DWORD
+          ]
+C:\Users\kgca4021\OneDrive - nsu.ac.kr\KGCA 자료\02_제출처\최지원Maptool\MapTool_DX11\Source\Sample_Maptool\KNode.h(191,26): warning C4244: '인수': 'float'에서 '_Ty'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+          with
+          [
+              _Ty=DWORD
+          ]
+C:\Users\kgca4021\OneDrive - nsu.ac.kr\KGCA 자료\02_제출처\최지원Maptool\MapTool_DX11\Source\Sample_Maptool\KQuadTree.cpp(22,4): warning C4244: '인수': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\kgca4021\OneDrive - nsu.ac.kr\KGCA 자료\02_제출처\최지원Maptool\MapTool_DX11\Source\Sample_Maptool\KQuadTree.cpp(21,4): warning C4244: '인수': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\kgca4021\OneDrive - nsu.ac.kr\KGCA 자료\02_제출처\최지원Maptool\MapTool_DX11\Source\Sample_Maptool\KQuadTree.cpp(20,4): warning C4244: '인수': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\kgca4021\OneDrive - nsu.ac.kr\KGCA 자료\02_제출처\최지원Maptool\MapTool_DX11\Source\Sample_Maptool\KQuadTree.cpp(19,67): warning C4244: '인수': '_Ty'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+          with
+          [
+              _Ty=DWORD
+          ]
+C:\Users\kgca4021\OneDrive - nsu.ac.kr\KGCA 자료\02_제출처\최지원Maptool\MapTool_DX11\Source\Sample_Maptool\KQuadTree.cpp(28,4): warning C4244: '인수': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\kgca4021\OneDrive - nsu.ac.kr\KGCA 자료\02_제출처\최지원Maptool\MapTool_DX11\Source\Sample_Maptool\KQuadTree.cpp(27,4): warning C4244: '인수': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\kgca4021\OneDrive - nsu.ac.kr\KGCA 자료\02_제출처\최지원Maptool\MapTool_DX11\Source\Sample_Maptool\KQuadTree.cpp(26,25): warning C4244: '인수': '_Ty'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+          with
+          [
+              _Ty=DWORD
+          ]
+C:\Users\kgca4021\OneDrive - nsu.ac.kr\KGCA 자료\02_제출처\최지원Maptool\MapTool_DX11\Source\Sample_Maptool\KQuadTree.cpp(25,46): warning C4244: '인수': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\kgca4021\OneDrive - nsu.ac.kr\KGCA 자료\02_제출처\최지원Maptool\MapTool_DX11\Source\Sample_Maptool\KQuadTree.cpp(34,4): warning C4244: '인수': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\kgca4021\OneDrive - nsu.ac.kr\KGCA 자료\02_제출처\최지원Maptool\MapTool_DX11\Source\Sample_Maptool\KQuadTree.cpp(33,25): warning C4244: '인수': '_Ty'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+          with
+          [
+              _Ty=DWORD
+          ]
+C:\Users\kgca4021\OneDrive - nsu.ac.kr\KGCA 자료\02_제출처\최지원Maptool\MapTool_DX11\Source\Sample_Maptool\KQuadTree.cpp(32,4): warning C4244: '인수': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\kgca4021\OneDrive - nsu.ac.kr\KGCA 자료\02_제출처\최지원Maptool\MapTool_DX11\Source\Sample_Maptool\KQuadTree.cpp(31,46): warning C4244: '인수': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\kgca4021\OneDrive - nsu.ac.kr\KGCA 자료\02_제출처\최지원Maptool\MapTool_DX11\Source\Sample_Maptool\KQuadTree.cpp(40,25): warning C4244: '인수': '_Ty'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+          with
+          [
+              _Ty=DWORD
+          ]
+C:\Users\kgca4021\OneDrive - nsu.ac.kr\KGCA 자료\02_제출처\최지원Maptool\MapTool_DX11\Source\Sample_Maptool\KQuadTree.cpp(39,4): warning C4244: '인수': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\kgca4021\OneDrive - nsu.ac.kr\KGCA 자료\02_제출처\최지원Maptool\MapTool_DX11\Source\Sample_Maptool\KQuadTree.cpp(38,4): warning C4244: '인수': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\kgca4021\OneDrive - nsu.ac.kr\KGCA 자료\02_제출처\최지원Maptool\MapTool_DX11\Source\Sample_Maptool\KQuadTree.cpp(37,46): warning C4244: '인수': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\kgca4021\OneDrive - nsu.ac.kr\KGCA 자료\02_제출처\최지원Maptool\MapTool_DX11\Source\Sample_Maptool\KQuadTree.cpp(81,26): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+C:\Users\kgca4021\OneDrive - nsu.ac.kr\KGCA 자료\02_제출처\최지원Maptool\MapTool_DX11\Source\Sample_Maptool\KQuadTree.cpp(97,26): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+C:\Users\kgca4021\OneDrive - nsu.ac.kr\KGCA 자료\02_제출처\최지원Maptool\MapTool_DX11\Source\Sample_Maptool\KQuadTree.cpp(224,21): warning C4473: 'swscanf_s': 서식 문자열에 대한 인수가 충분하게 전달되지 않았습니다.
+C:\Users\kgca4021\OneDrive - nsu.ac.kr\KGCA 자료\02_제출처\최지원Maptool\MapTool_DX11\Source\Sample_Maptool\KQuadTree.cpp(224,21): message : 자리 표시자 및 해당 매개 변수에는 variadic 인수가 3개 필요하지만 2개가 제공되었습니다.
+C:\Users\kgca4021\OneDrive - nsu.ac.kr\KGCA 자료\02_제출처\최지원Maptool\MapTool_DX11\Source\Sample_Maptool\KQuadTree.cpp(224,21): message : 누락된 variadic 인수 3이(가) 서식 문자열 '%d'에 필요합니다.
+  KScene_Maptool.cpp
+C:\Users\kgca4021\OneDrive - nsu.ac.kr\KGCA 자료\02_제출처\최지원Maptool\MapTool_DX11\Source\Sample_Maptool\KNode.h(188,26): warning C4244: '인수': 'float'에서 '_Ty'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+          with
+          [
+              _Ty=DWORD
+          ]
+C:\Users\kgca4021\OneDrive - nsu.ac.kr\KGCA 자료\02_제출처\최지원Maptool\MapTool_DX11\Source\Sample_Maptool\KNode.h(189,26): warning C4244: '인수': 'float'에서 '_Ty'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+          with
+          [
+              _Ty=DWORD
+          ]
+C:\Users\kgca4021\OneDrive - nsu.ac.kr\KGCA 자료\02_제출처\최지원Maptool\MapTool_DX11\Source\Sample_Maptool\KNode.h(190,26): warning C4244: '인수': 'float'에서 '_Ty'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+          with
+          [
+              _Ty=DWORD
+          ]
+C:\Users\kgca4021\OneDrive - nsu.ac.kr\KGCA 자료\02_제출처\최지원Maptool\MapTool_DX11\Source\Sample_Maptool\KNode.h(191,26): warning C4244: '인수': 'float'에서 '_Ty'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+          with
+          [
+              _Ty=DWORD
+          ]
+C:\Users\kgca4021\OneDrive - nsu.ac.kr\KGCA 자료\02_제출처\최지원Maptool\MapTool_DX11\Source\Sample_Maptool\KFBXObj.h(27,1): warning C4267: '초기화 중': 'size_t'에서 'DWORD'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\kgca4021\OneDrive - nsu.ac.kr\KGCA 자료\02_제출처\최지원Maptool\MapTool_DX11\Source\Sample_Maptool\KScene_Maptool.cpp(60,7): warning C4804: '+=': 연산에 'bool' 형식을 사용하는 것은 안전하지 않습니다.
+C:\Users\kgca4021\OneDrive - nsu.ac.kr\KGCA 자료\02_제출처\최지원Maptool\MapTool_DX11\Source\Sample_Maptool\KScene_Maptool.cpp(61,7): warning C4804: '+=': 연산에 'bool' 형식을 사용하는 것은 안전하지 않습니다.
+C:\Users\kgca4021\OneDrive - nsu.ac.kr\KGCA 자료\02_제출처\최지원Maptool\MapTool_DX11\Source\Sample_Maptool\KScene_Maptool.cpp(62,7): warning C4804: '+=': 연산에 'bool' 형식을 사용하는 것은 안전하지 않습니다.
+C:\Users\kgca4021\OneDrive - nsu.ac.kr\KGCA 자료\02_제출처\최지원Maptool\MapTool_DX11\Source\Sample_Maptool\KScene_Maptool.cpp(64,7): warning C4804: '+=': 연산에 'bool' 형식을 사용하는 것은 안전하지 않습니다.
+C:\Users\kgca4021\OneDrive - nsu.ac.kr\KGCA 자료\02_제출처\최지원Maptool\MapTool_DX11\Source\Sample_Maptool\KScene_Maptool.cpp(65,7): warning C4804: '+=': 연산에 'bool' 형식을 사용하는 것은 안전하지 않습니다.
+C:\Users\kgca4021\OneDrive - nsu.ac.kr\KGCA 자료\02_제출처\최지원Maptool\MapTool_DX11\Source\Sample_Maptool\KScene_Maptool.cpp(66,7): warning C4804: '+=': 연산에 'bool' 형식을 사용하는 것은 안전하지 않습니다.
+C:\Users\kgca4021\OneDrive - nsu.ac.kr\KGCA 자료\02_제출처\최지원Maptool\MapTool_DX11\Source\Sample_Maptool\KScene_Maptool.cpp(68,7): warning C4804: '+=': 연산에 'bool' 형식을 사용하는 것은 안전하지 않습니다.
+C:\Users\kgca4021\OneDrive - nsu.ac.kr\KGCA 자료\02_제출처\최지원Maptool\MapTool_DX11\Source\Sample_Maptool\KScene_Maptool.cpp(69,7): warning C4804: '+=': 연산에 'bool' 형식을 사용하는 것은 안전하지 않습니다.
+C:\Users\kgca4021\OneDrive - nsu.ac.kr\KGCA 자료\02_제출처\최지원Maptool\MapTool_DX11\Source\Sample_Maptool\KScene_Maptool.cpp(70,7): warning C4804: '+=': 연산에 'bool' 형식을 사용하는 것은 안전하지 않습니다.
+C:\Users\kgca4021\OneDrive - nsu.ac.kr\KGCA 자료\02_제출처\최지원Maptool\MapTool_DX11\Source\Sample_Maptool\KScene_Maptool.cpp(72,11): warning C4804: '>': 연산에 'bool' 형식을 사용하는 것은 안전하지 않습니다.
+  Sample.cpp
