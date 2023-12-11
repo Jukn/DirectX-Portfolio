@@ -1,0 +1,125 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="소스 파일">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="헤더 파일">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="리소스 파일">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="소스 파일\Main">
+      <UniqueIdentifier>{78180d8f-ebee-4568-b341-45edeb5ce46a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Utils">
+      <UniqueIdentifier>{4369a2b4-8a67-44a4-ba30-1bf4f4e55990}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Shader">
+      <UniqueIdentifier>{aa6b6d06-e5c3-483a-a61c-1622d2a3e5b0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\MapToolClasses">
+      <UniqueIdentifier>{cb9907f4-15c4-446f-8b73-518800760be5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\MapToolClasses\Tree">
+      <UniqueIdentifier>{de074d3c-7b4c-4887-8961-834a9ee7739f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\MapToolClasses\Debug">
+      <UniqueIdentifier>{0ca65b1c-8b1e-43f1-b02f-e25523395773}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\MapToolClasses\Camera">
+      <UniqueIdentifier>{76527545-b1eb-4f37-b462-6951b299449d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\MapToolClasses\Terrain">
+      <UniqueIdentifier>{cc6cd131-5627-41ad-83c7-14f412da83cb}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="pch.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="WinMain.h">
+      <Filter>소스 파일\Main</Filter>
+    </ClInclude>
+    <ClInclude Include="MapTool.h">
+      <Filter>소스 파일\Main</Filter>
+    </ClInclude>
+    <ClInclude Include="SpaceDivideTree.h">
+      <Filter>소스 파일\MapToolClasses\Tree</Filter>
+    </ClInclude>
+    <ClInclude Include="SectionNode.h">
+      <Filter>소스 파일\MapToolClasses\Tree</Filter>
+    </ClInclude>
+    <ClInclude Include="TestCamera.h">
+      <Filter>소스 파일\MapToolClasses\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="Frustum.h">
+      <Filter>소스 파일\MapToolClasses\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="DebugDrawer.h">
+      <Filter>소스 파일\MapToolClasses\Debug</Filter>
+    </ClInclude>
+    <ClInclude Include="Terrain.h">
+      <Filter>소스 파일\MapToolClasses\Terrain</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderMgr.h">
+      <Filter>소스 파일\MapToolClasses</Filter>
+    </ClInclude>
+    <ClInclude Include="Picking.h">
+      <Filter>소스 파일\MapToolClasses\Terrain</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="pch.cpp">
+      <Filter>헤더 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="WinMain.cpp">
+      <Filter>소스 파일\Main</Filter>
+    </ClCompile>
+    <ClCompile Include="MapTool.cpp">
+      <Filter>소스 파일\Main</Filter>
+    </ClCompile>
+    <ClCompile Include="SectionNode.cpp">
+      <Filter>소스 파일\MapToolClasses\Tree</Filter>
+    </ClCompile>
+    <ClCompile Include="SpaceDivideTree.cpp">
+      <Filter>소스 파일\MapToolClasses\Tree</Filter>
+    </ClCompile>
+    <ClCompile Include="TestCamera.cpp">
+      <Filter>소스 파일\MapToolClasses\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="Frustum.cpp">
+      <Filter>소스 파일\MapToolClasses\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="DebugDrawer.cpp">
+      <Filter>소스 파일\MapToolClasses\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="Terrain.cpp">
+      <Filter>소스 파일\MapToolClasses\Terrain</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderMgr.cpp">
+      <Filter>소스 파일\MapToolClasses</Filter>
+    </ClCompile>
+    <ClCompile Include="Picking.cpp">
+      <Filter>소스 파일\MapToolClasses\Terrain</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="..\..\Shader\MapToolShader\MapToolShader.fx">
+      <Filter>소스 파일\Shader</Filter>
+    </FxCompile>
+    <FxCompile Include="..\..\Shader\MapToolShader\GlobalLight.fx">
+      <Filter>소스 파일\Shader</Filter>
+    </FxCompile>
+    <FxCompile Include="..\..\Shader\MapToolShader\Global.fx">
+      <Filter>소스 파일\Shader</Filter>
+    </FxCompile>
+    <FxCompile Include="..\..\Shader\MapToolShader\DebugShader.fx">
+      <Filter>소스 파일\Shader</Filter>
+    </FxCompile>
+  </ItemGroup>
+</Project>
