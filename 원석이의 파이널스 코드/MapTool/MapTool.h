@@ -1,13 +1,13 @@
 #pragma once
 
-#include "TestCamera.h"
-
-
 class MapTool : public IExecute
 {
 private:
 	std::shared_ptr<GameObject> map;
+
 	std::shared_ptr<GameObject> cameraObject;
+
+	//std::shared_ptr<Shader> objectShader;
 
 public:
 	// IExecute을(를) 통해 상속됨

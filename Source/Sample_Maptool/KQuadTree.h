@@ -24,9 +24,9 @@ public:
 	
 	bool CheckBox(KBox& boxA, KBox& boxB);
 public:
-	virtual bool	UpdateVertexList(KNode* pNode); // °¡»ó ÇÔ¼ö
-	virtual HRESULT	CreateVertexBuffer(KNode* pNode); // °¡»ó ÇÔ¼ö
-	virtual KNode*  CreateNode(KNode* pParent, float x, float y, float w, float h); // °¡»ó ÇÔ¼ö
+	virtual bool	UpdateVertexList(KNode* pNode); // ï¿½ï¿½ï¿½ï¿½ ï¿½Ô¼ï¿½
+	virtual HRESULT	CreateVertexBuffer(KNode* pNode); // ï¿½ï¿½ï¿½ï¿½ ï¿½Ô¼ï¿½
+	virtual KNode*  CreateNode(KNode* pParent, float x, float y, float w, float h); // ï¿½ï¿½ï¿½ï¿½ ï¿½Ô¼ï¿½
 public:
 	virtual bool	Init(float width, float height);
 	virtual bool	Frame();

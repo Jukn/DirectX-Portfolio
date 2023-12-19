@@ -22,8 +22,10 @@ void Camera::Update()
 	ImGui::InputFloat("far range", &farRange);
 
 	UpdateViewMatrix();
-
 	position = GetTransform()->GetWorldPosition();
+
+	return; // temp
+	RenderManager::GetInstance().PushGlobalData(viewMatrix, projectionMatrix);
 }
 
 void Camera::UpdateViewMatrix()
