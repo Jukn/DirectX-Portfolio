@@ -37,6 +37,9 @@
     <Filter Include="소스 파일\MapToolClasses\Terrain">
       <UniqueIdentifier>{cc6cd131-5627-41ad-83c7-14f412da83cb}</UniqueIdentifier>
     </Filter>
+    <Filter Include="소스 파일\MapToolClasses\Scene">
+      <UniqueIdentifier>{dab4329c-4da9-4ae3-b2b0-8f1bbe1f46fe}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
@@ -70,6 +73,9 @@
       <Filter>소스 파일\MapToolClasses</Filter>
     </ClInclude>
     <ClInclude Include="Picking.h">
+      <Filter>소스 파일\MapToolClasses\Terrain</Filter>
+    </ClInclude>
+    <ClInclude Include="SkyBox.h">
       <Filter>소스 파일\MapToolClasses\Terrain</Filter>
     </ClInclude>
   </ItemGroup>
@@ -107,6 +113,9 @@
     <ClCompile Include="Picking.cpp">
       <Filter>소스 파일\MapToolClasses\Terrain</Filter>
     </ClCompile>
+    <ClCompile Include="SkyBox.cpp">
+      <Filter>소스 파일\MapToolClasses\Terrain</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="..\..\Shader\MapToolShader\MapToolShader.fx">
@@ -119,6 +128,9 @@
       <Filter>소스 파일\Shader</Filter>
     </FxCompile>
     <FxCompile Include="..\..\Shader\MapToolShader\DebugShader.fx">
+      <Filter>소스 파일\Shader</Filter>
+    </FxCompile>
+    <FxCompile Include="..\..\Shader\MapToolShader\SkyBox.fx">
       <Filter>소스 파일\Shader</Filter>
     </FxCompile>
   </ItemGroup>

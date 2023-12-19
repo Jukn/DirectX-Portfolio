@@ -7,6 +7,8 @@
 #include "VertexBuffer.h"
 #include "IndexBuffer.h"
 
+#include "InstancingBuffer.h"
+
 MeshRenderer::MeshRenderer() : Base(ComponentType::MeshRenderer)
 {
 }
@@ -23,6 +25,11 @@ void MeshRenderer::SetMaterial(std::shared_ptr<Material> material)
 	this->material = material;
 }
 
+void MeshRenderer::SetPass(UINT pass)
+{
+	this->pass = pass;
+}
+
 std::shared_ptr<Mesh> MeshRenderer::GetMesh() const
 {
 	return mesh;
@@ -32,7 +39,17 @@ std::shared_ptr<Material> MeshRenderer::GetMaterial() const
 	return material;
 }
 
-void MeshRenderer::Update()
+UINT MeshRenderer::GetPass() const
+{
+	return pass;
+}
+
+InstanceID MeshRenderer::GetInstanceID() const
+{
+	return std::make_pair((UINT)mesh.get(), (UINT)material.get());
+}
+
+void MeshRenderer::RenderInstancing(std::shared_ptr<class InstancingBuffer>& instancingBuffer)
 {
 	if (mesh == nullptr || material == nullptr)
 		return;
@@ -43,14 +60,10 @@ void MeshRenderer::Update()
 
 	material->Update();
 
-	auto world = GetTransform()->GetWorldMatrix();
-	RenderManager::GetInstance().PushTransformData(TransformDesc{ world });
+	mesh->GetVertexBuffer()->PushData();
+	mesh->GetIndexBuffer()->PushData();
 
-	UINT stride = mesh->GetVertexBuffer()->GetStride();
-	UINT offset = mesh->GetIndexBuffer()->GetOffset();
+	instancingBuffer->PushData();
 
-	Global::g_immediateContext->IASetVertexBuffers(0, 1, mesh->GetVertexBuffer()->GetVertexBuffer().GetAddressOf(), &stride, &offset);
-	Global::g_immediateContext->IASetIndexBuffer(mesh->GetIndexBuffer()->GetIndexBuffer().Get(), DXGI_FORMAT_R32_UINT, 0);
-
-	shader->DrawIndexed(0, 0, mesh->GetIndexBuffer()->GetIndexCount(), 0, 0);
+	shader->DrawIndexedInstanced(0, pass, mesh->GetIndexBuffer()->GetIndexCount(),instancingBuffer->GetDataCount());
 }

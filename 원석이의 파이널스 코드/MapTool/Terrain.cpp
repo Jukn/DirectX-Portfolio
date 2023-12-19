@@ -2,6 +2,7 @@
 #include "Terrain.h"
 
 #include "SpaceDivideTree.h"
+#include "SectionNode.h"
 
 #include "Picking.h"
 #include <fstream>
@@ -16,6 +17,8 @@ Terrain::Terrain(TerrainDesc desc) : Base(ComponentType::Terrain)
 	faceCount = rowCellNum * colCellNum * 2;
 	cellDistance = desc.cellDistance;
 	heightScale = desc.heightScale;
+
+	devideTreeDepth = desc.DevideTreeDepth;
 
 	if (desc.textureFilePath.length() < 1 || desc.shaderFilePath.length() < 1)
 	{
@@ -41,6 +44,28 @@ Terrain::Terrain(TerrainDesc desc) : Base(ComponentType::Terrain)
 	{
 		picking = std::make_shared<Picking>();
 	}
+
+	// temp : for tilling
+	{
+		texture1 = std::make_shared<Texture>();
+		texture1->Load(L"../../Res/Textures/Terrain/Red.PNG");
+		
+		texture2 = std::make_shared<Texture>();
+		texture2->Load(L"../../Res/Textures/Terrain/Green.PNG");
+	
+		texture3 = std::make_shared<Texture>();
+		texture3->Load(L"../../Res/Textures/Terrain/Blue.PNG");
+
+		texture4 = std::make_shared<Texture>();
+		texture4->Load(L"../../Res/Textures/Terrain/White.PNG");
+
+
+
+		if (useHeightMap)
+			CreateHeightMapData();
+		alphaTexture = std::make_shared<Texture>();
+		alphaTexture->CreateAlphaTexture(rowNum, colNum);
+	}
 }
 
 Terrain::~Terrain()
@@ -63,6 +88,7 @@ void Terrain::Init()
 
 	// quad tree
 	spaceDivideTree = std::make_shared<SpaceDivideTree>(shared_from_this());
+	spaceDivideTree->maxDepth = devideTreeDepth;
 	spaceDivideTree->Init();
 }
 
@@ -73,27 +99,80 @@ void Terrain::Update()
 		ImGui::InputFloat("Change Height", &changeHeight);
 		ImGui::InputFloat("Radius", &radius);
 
+		ImGui::InputInt("Picking Mode", &pickingMode);
+		ImGui::InputInt("Tilling Texture", &tillingTextureNum);
+
+		if(pickingMode < 0 || pickingMode > 1)
+			pickingMode = 0;
+		if(tillingTextureNum < 0 || tillingTextureNum > 4)
+			tillingTextureNum = 0;
+
 		if (InputManager::GetInstance().GetMouseState(0) > KeyState::UP)
 		{
 			picking->UpdateRay();
 
-			// update vertex height
-			for (int i = 0; i < faceCount; i++)
+			// find leaf node collision with ray
+			std::vector<std::shared_ptr<SectionNode>> sectionList;
+			for (int i = 0; i < spaceDivideTree->leafNodeMap.size(); ++i)
 			{
-				Vector3 v0 = vertices[indices[i * 3 + 0]].position;
-				Vector3 v1 = vertices[indices[i * 3 + 1]].position;
-				Vector3 v2 = vertices[indices[i * 3 + 2]].position;
-
-				if (picking->PickTriangle(v0, v1, v2))
-				{
-					// to do : find middle of triangle
-					// Vector3 vCenter = (v0 + v1 + v2) / 3.0f;
-
-					FindChangeVertex(v0);
-					UpdateVertexHeight(v0);
-					break;
-				}
+				if(spaceDivideTree->leafNodeMap[i]->boundingBox.ToRay(picking->GetRay()))
+					sectionList.push_back(spaceDivideTree->leafNodeMap[i]);
 			}
+
+			// find face collision with ray
+			int i = 0;
+			int pickNodeIdx = 0;
+			Vector3 pickPoint;
+			bool findPickPoint = false;
+
+			auto& leafNodeIdxList = spaceDivideTree->leafNodeIndexList;
+
+			while (!findPickPoint)
+			{
+				if (i < sectionList.size())
+				{
+					auto& leafVertices = sectionList[i]->vertices;
+					for(int j = 0; j < leafNodeIdxList.size(); j += 3)
+					{
+						Vector3 v0 = leafVertices[leafNodeIdxList[j + 0]].position;
+						Vector3 v1 = leafVertices[leafNodeIdxList[j + 1]].position;
+						Vector3 v2 = leafVertices[leafNodeIdxList[j + 2]].position;
+
+						if (picking->PickTriangle(v0, v1, v2))
+						{
+							pickPoint = v0;
+							findPickPoint = true;
+							pickNodeIdx = sectionList[i]->nodeIndex;
+
+							break;
+						}
+					}
+				}
+				else
+					break;
+
+				++i;
+			}
+			if (!findPickPoint)
+				return;
+
+			FindChangeVertex(pickPoint, pickNodeIdx);
+
+			switch (pickingMode)
+			{
+			case(0):
+				UpdateVertexHeight(pickPoint);
+				break;
+			case(1):
+				TillingTexture(pickPoint);
+				break;
+			default:
+				break;
+			}
+
+			// update vertex buffer
+			spaceDivideTree->UpdateVertex();
+				
 		}
 
 		SaveHeightMap();
@@ -122,10 +201,80 @@ void Terrain::SaveHeightMap()
 
 		outFile.write((char*)&rowNum, sizeof(UINT));
 		outFile.write((char*)&colNum, sizeof(UINT));
+		outFile.write((char*)&devideTreeDepth, sizeof(int));
 		outFile.write((char*)&heightList[0], sizeof(float) * rowNum * colNum);
 
 		outFile.close();
 	}
+}
+
+
+// -------------------------------------------------------------------------------
+// ----------------------------- tilling function -------------------------------
+// -------------------------------------------------------------------------------
+
+
+void Terrain::TillingTexture(Vector3 centerPos)
+{
+	float distance = 0.0f;
+	float deltaTime = TimeManager::GetInstance().GetDeltaTime();
+
+	for (UINT i : UpdateVertexIdxList)
+	{
+		distance = (vertices[i].position - centerPos).Length();
+
+		if (distance < 1.0f)
+			distance = 1.0;
+
+		distance = (1 / distance);
+		distance *= 100.0f;
+
+		switch (tillingTextureNum)
+		{
+		case(0):
+			vertices[i].color.x += distance;
+			vertices[i].color.x = std::clamp(vertices[i].color.x, 0.0f, 255.0f);
+			break;
+		case(1):
+			vertices[i].color.y += distance;
+			vertices[i].color.y = std::clamp(vertices[i].color.y, 0.0f, 255.0f);
+			break;
+		case(2):
+			vertices[i].color.z += distance;
+			vertices[i].color.z = std::clamp(vertices[i].color.z, 0.0f, 255.0f);
+			break;
+		case(3):
+			vertices[i].color.w += distance;
+			vertices[i].color.w = std::clamp(vertices[i].color.w, 0.0f, 255.0f);
+			break;
+		case(4):
+			vertices[i].color.x = 0;
+			vertices[i].color.y = 0;
+			vertices[i].color.z = 0;
+			vertices[i].color.w = 0;
+			break;
+		default:
+			break;
+		}
+	}
+
+	//temp : update alpha texture
+	std::vector<BYTE> colorList;
+	colorList.resize(rowNum * colNum * 4);
+
+	for (int i = 0; i < rowNum * colNum; ++i)
+	{
+		colorList[i * 4 + 0] = vertices[i].color.x;
+		colorList[i * 4 + 1] = vertices[i].color.y;
+		colorList[i * 4 + 2] = vertices[i].color.z;
+		colorList[i * 4 + 3] = vertices[i].color.w;
+	}
+
+	alphaTexture->UpdateAlphaTexture(colorList);
+}
+
+void Terrain::SetAlphaTexture()
+{
 }
 
 // -------------------------------------------------------------------------------
@@ -140,7 +289,6 @@ void Terrain::UpdateVertexHeight(Vector3 centerPos)
 	for (UINT i : UpdateVertexIdxList)
 	{
 		distance = (vertices[i].position - centerPos).Length();
-		fabsf(distance);
 
 		if (distance < 1.0f)
 			distance = 1.0;
@@ -151,16 +299,145 @@ void Terrain::UpdateVertexHeight(Vector3 centerPos)
 		vertices[i].position.y += (distance * changeHeight * deltaTime);
 		heightList[i] = vertices[i].position.y / heightScale;
 	}
-
-	// update vertex buffer
-	spaceDivideTree->UpdateVertexHeight();
 }
 
-void Terrain::FindChangeVertex(Vector3 centerPos)
+void Terrain::FindChangeVertex(Vector3 centerPos, int pickNodeIdx)
 {
 	UpdateVertexIdxList.clear();
 
+	// 0 : right, 1 : left, 2 : bottom, 3 : top
+	// find node by node idx
+	DWORD LT, RT, LB, RB;
+	std::shared_ptr<SectionNode> pNode = spaceDivideTree->leafNodeMap[pickNodeIdx];
+
+	// lt, lb
+	{
+		while (true)
+		{
+			if (pNode->neighborNodeList[1] == nullptr)
+				break;
+
+			auto& ltConerPos = vertices[pNode->cornerIndexList[0]].position;
+
+			if (centerPos.x - radius < ltConerPos.x)
+				pNode = pNode->neighborNodeList[1];
+			else
+				break;
+		}
+
+		std::shared_ptr<SectionNode> ltNode = pNode;
+		std::shared_ptr<SectionNode> lbNode = pNode;
+
+		// top
+		while (true)
+		{
+			if (ltNode->neighborNodeList[3] == nullptr)
+				break;
+
+			auto& ltConerPos = vertices[ltNode->cornerIndexList[0]].position;
+
+			if (centerPos.z + radius > ltConerPos.z)
+				ltNode = ltNode->neighborNodeList[3];
+			else
+				break;
+		}
+		LT = ltNode->cornerIndexList[0];
+
+		// bottom
+		while (true)
+		{
+			if (lbNode->neighborNodeList[2] == nullptr)
+				break;
+
+			auto& lbConerPos = vertices[lbNode->cornerIndexList[2]].position;
+
+			if (centerPos.z - radius < lbConerPos.z)
+				lbNode = lbNode->neighborNodeList[2];
+			else
+				break;
+		}
+		LB = lbNode->cornerIndexList[2];
+	}
+
+
+	// rt, rb
+	{
+		pNode = spaceDivideTree->leafNodeMap[pickNodeIdx];
+
+		while (true)
+		{
+			if (pNode->neighborNodeList[0] == nullptr)
+				break;
+
+			auto& rtConerPos = vertices[pNode->cornerIndexList[1]].position;
+
+			if (centerPos.x + radius > rtConerPos.x)
+				pNode = pNode->neighborNodeList[0];
+			else
+				break;
+		}
+
+		std::shared_ptr<SectionNode> rtNode = pNode;
+		std::shared_ptr<SectionNode> rbNode = pNode;
+
+		// top
+		while (true)
+		{
+			if (rtNode->neighborNodeList[3] == nullptr)
+				break;
+
+			auto& rtConerPos = vertices[rtNode->cornerIndexList[1]].position;
+
+			if (centerPos.z + radius > rtConerPos.z)
+				rtNode = rtNode->neighborNodeList[3];
+			else
+				break;
+		}
+		RT = rtNode->cornerIndexList[1];
+
+		// bottom
+		while (true)
+		{
+			if (rbNode->neighborNodeList[2] == nullptr)
+				break;
+
+			auto& rbConerPos = vertices[rbNode->cornerIndexList[3]].position;
+
+			if (centerPos.z - radius < rbConerPos.z)
+				rbNode = rbNode->neighborNodeList[2];
+			else
+				break;
+		}
+		RB = rbNode->cornerIndexList[3];
+	}
+
+	// loop (check find node area)
 	Circle circle = Circle(Vector2(centerPos.x, centerPos.z), radius);
+
+	int iNumCols = colNum;
+	int iStartRow = LT / iNumCols;
+	int iEndRow = LB / iNumCols;
+	int iStartCol = LT % iNumCols;
+	int iEndCol = RT % iNumCols; 
+
+	int iNumColCell = iEndCol - iStartCol;
+	int iNumRowCell = iEndRow - iStartRow;
+
+	int iIndex = 0;
+	for (int iRow = iStartRow; iRow <= iEndRow; iRow++)
+	{
+		for (int iCol = iStartCol; iCol <= iEndCol; iCol++)
+		{
+			int iCurrentIndex = iRow * iNumCols + iCol;
+			Vector3 vPos = vertices[iCurrentIndex].position;
+
+			if(circle.ToPoint(Vector2(vPos.x, vPos.z)))
+				UpdateVertexIdxList.push_back(iCurrentIndex);
+		}
+	}
+	 
+	// loop (check all)
+	/*Circle circle = Circle(Vector2(centerPos.x, centerPos.z), radius);
 
 	for (int i = 0; i < vertexCount; i++)
 	{
@@ -168,7 +445,7 @@ void Terrain::FindChangeVertex(Vector3 centerPos)
 
 		if (circle.ToPoint(Vector2(vPos.x, vPos.z)))
 			UpdateVertexIdxList.push_back(i);
-	}
+	}*/
 }
 
 // -------------------------------------------------------------------------------
@@ -177,9 +454,6 @@ void Terrain::FindChangeVertex(Vector3 centerPos)
 
 void Terrain::CreateVertexData()
 {
-	if (useHeightMap)
-		CreateHeightMapData();
-
 	vertices.resize(vertexCount);
 
 	float fOffSetU = 1.0f / (colNum - 1);
@@ -201,7 +475,7 @@ void Terrain::CreateVertexData()
 			vertices[iVertexIndex].position.y = tY;
 
 			vertices[iVertexIndex].normal = Vector3(0,1,0);
-			vertices[iVertexIndex].color = Vector4(1, 1, 1, 1);
+			vertices[iVertexIndex].color = Vector4(0, 0, 0, 0);
 			vertices[iVertexIndex].uv = Vector2(iCol * fOffSetU, iRow * fOffSetV);
 		}
 	}
@@ -249,6 +523,7 @@ void Terrain::CreateHeightMapData()
 
 		inFile.read((char*)&rowNum, sizeof(UINT));
 		inFile.read((char*)&colNum, sizeof(UINT));
+		inFile.read((char*)&devideTreeDepth, sizeof(int));
 
 		rowCellNum = rowNum - 1;
 		colCellNum = colNum - 1;
@@ -427,7 +702,7 @@ void Terrain::CalcVertexColor(Vector3 vLightDir)
 			float fDot = vLightDir.Dot(vertices[iVertexIndex].normal);
 
 			vertices[iVertexIndex].color *= fDot;
-			vertices[iVertexIndex].color.w = 1.0f;
+			vertices[iVertexIndex].color.w = 0.0f;
 		}
 	}
 }

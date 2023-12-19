@@ -9,9 +9,7 @@ class DebugDrawer;
 class SpaceDivideTree
 {
 public:
-	int maxDepth = 2;
-	int minDivideSize = 1;
-	float minSplitDistance = 2.0f;
+	int maxDepth = 4;
 	
 	std::weak_ptr<Terrain> terrain;
 	std::shared_ptr<SectionNode> root;
@@ -25,9 +23,10 @@ public:
 
 	std::shared_ptr<Shader> shader;
 	std::shared_ptr<Texture> texture;
+	std::vector<UINT> leafNodeIndexList;
 	std::shared_ptr<IndexBuffer> leafNodeIndexBuffer;
 
-	std::vector<std::shared_ptr<SectionNode>> leafNodeList;
+	std::map<int, std::shared_ptr<SectionNode>> leafNodeMap;
 	std::vector<int> drawNodeIndexList;
 private:
 	void FindDrawNode();
@@ -37,6 +36,7 @@ private:
 	void BuildTree(std::shared_ptr<SectionNode> pNode);
 	void UpdateVertexList(std::shared_ptr<SectionNode> pNode);
 	bool SubDivide(std::shared_ptr<SectionNode> pNode);
+	void SetNeighborNode();
 
 	Vector2 GetHeightFromNode(std::shared_ptr<SectionNode> pNode);
 	UINT CheckSize(UINT dwSize);
@@ -52,7 +52,7 @@ public:
 	void Render();
 
 	// temp : for picking
-	void UpdateVertexHeight();
+	void UpdateVertex();
 
 	SpaceDivideTree(std::shared_ptr<Terrain> owner);
 	~SpaceDivideTree();

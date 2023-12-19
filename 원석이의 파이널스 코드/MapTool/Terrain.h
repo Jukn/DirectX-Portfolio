@@ -15,6 +15,8 @@ struct TerrainDesc
 	std::wstring shaderFilePath    = L"";
 
 	bool useHeightMapByYASSET = false;
+
+	int DevideTreeDepth = 1;
 };
 
 class Terrain : public Component, public std::enable_shared_from_this<Terrain>
@@ -34,6 +36,8 @@ public:
 	float cellDistance;
 	float heightScale;
 
+	int devideTreeDepth = 1;
+
 	std::wstring textureFilePath;
 	std::wstring heightMapFilePath;	
 	std::wstring shaderFilePath;
@@ -49,7 +53,16 @@ public:
 	std::shared_ptr<SpaceDivideTree> spaceDivideTree;
 
 	// temp : for picking
+	int pickingMode = 0;
 	std::shared_ptr<Picking> picking;
+
+	// temp : for tilling texture
+	int tillingTextureNum = 0;
+	std::shared_ptr<Texture> alphaTexture;
+	std::shared_ptr<Texture> texture1;
+	std::shared_ptr<Texture> texture2;
+	std::shared_ptr<Texture> texture3;
+	std::shared_ptr<Texture> texture4;
 
 private:
 	// create data
@@ -70,7 +83,11 @@ private:
 
 	// calc function
 	void CalcVertexColor(Vector3 vLightDir);
+
+public: // temp : for set obj y pos
 	float GetHeightMap(int row, int col);
+
+private:
 	float GetHeightVertex(UINT index);
 
 	// temp : for picking
@@ -78,9 +95,15 @@ private:
 	float changeHeight = 10.0f;
 	float radius = 10.0f;
 	void UpdateVertexHeight(Vector3 centerPos);
-	void FindChangeVertex(Vector3 centerPos);
+	void FindChangeVertex(Vector3 centerPos, int pickNodeIdx);
 
+	// save height map to binary file
 	void SaveHeightMap();
+
+	// temp : for tilling
+	int tileTextureNum = 0;
+	void TillingTexture(Vector3 centerPos);
+	void SetAlphaTexture();
 
 public:
 	void Init() override;
