@@ -15,6 +15,7 @@ private:
 	bool gpuWrite = false;
 public:
 	VertexBuffer();
+	~VertexBuffer();
 
 	ComPtr<ID3D11Buffer> GetVertexBuffer() { return vertexBuffer; }
 	UINT GetStride() { return stride; }
@@ -60,7 +61,7 @@ public:
 		HRESULT hr = device->CreateBuffer(&bufferDesc, &subResourceData, vertexBuffer.ReleaseAndGetAddressOf());
 
 		if (FAILED(hr))
-			ShowErrorMessage(hr);
+			Utils::ShowErrorMessage(hr);
 	}
 
 	template <typename T>
@@ -70,7 +71,7 @@ public:
 		HRESULT hr = Global::g_immediateContext->Map(vertexBuffer.Get(),0,D3D11_MAP_WRITE_DISCARD,0,&subResource);
 
 		if (FAILED(hr))
-			ShowErrorMessage(hr);
+			Utils::ShowErrorMessage(hr);
 
 		memcpy(subResource.pData, vertexData.data(), sizeof(T) * vertexData.size());
 

@@ -2,6 +2,10 @@
 
 class SpaceDivideTree;
 class Picking;
+class HeightMap;
+class Splatting;
+class RenderMgr;
+class Picking;
 
 struct TerrainDesc
 {
@@ -14,7 +18,7 @@ struct TerrainDesc
 	std::wstring heightMapFilePath = L"";
 	std::wstring shaderFilePath    = L"";
 
-	bool useHeightMapByYASSET = false;
+	std::wstring alphaTexPath = L"";
 
 	int DevideTreeDepth = 1;
 };
@@ -23,10 +27,19 @@ class Terrain : public Component, public std::enable_shared_from_this<Terrain>
 {
 private:
 	using Base = Component;
+
+	// imgui value
+	int pickingMode = 0;
+	int tillingTextureNum = 0;
+	int changeHeightMode = 0;
+	float changeHeight = 10.0f;
+	float radius = 10.0f;
+
+	// temp (object spawn)
+	std::shared_ptr<Model> model;
+	std::shared_ptr<Shader> objectShader;
+
 public:
-	bool useHeightMap = false;
-	bool useHeightMapByYASSET = false;
-	
 	UINT rowNum;
 	UINT colNum;
 	UINT rowCellNum;
@@ -34,77 +47,46 @@ public:
 	UINT vertexCount;
 	UINT faceCount;
 	float cellDistance;
-	float heightScale;
 
 	int devideTreeDepth = 1;
 
 	std::wstring textureFilePath;
-	std::wstring heightMapFilePath;	
 	std::wstring shaderFilePath;
 
 	std::vector<PNCTVertex> vertices;
 	std::vector<UINT> indices;
+	std::vector<UINT> leafNodeIndexList;
 
-	std::vector<float> heightList;
 	std::vector<Vector3> faceNormalList;
 	std::vector<int> normalVectorLookTable;
 
-	// quad tree
+	std::shared_ptr<Shader> shader;
+	std::shared_ptr<Texture> texture;
+
+	std::shared_ptr<HeightMap> heightMap;
+	std::shared_ptr<Splatting> splatting;
+	std::shared_ptr<Picking> picking;
 	std::shared_ptr<SpaceDivideTree> spaceDivideTree;
 
-	// temp : for picking
-	int pickingMode = 0;
-	std::shared_ptr<Picking> picking;
-
-	// temp : for tilling texture
-	int tillingTextureNum = 0;
-	std::shared_ptr<Texture> alphaTexture;
-	std::shared_ptr<Texture> texture1;
-	std::shared_ptr<Texture> texture2;
-	std::shared_ptr<Texture> texture3;
-	std::shared_ptr<Texture> texture4;
+	std::shared_ptr<RenderMgr> renderMgr;	// temp
 
 private:
-	// create data
+	// create map data
 	void CreateVertexData();
 	void CreateIndexData();
-
-	// create height map data
-	void CreateHeightMapData();
 	void InitFaceNormal();
 	void GenNormalLookupTable();
 	void CalcPerVertexNormalsFastLookup();
 	void CalcFaceNormals();
 	Vector3 ComputeFaceNormal(DWORD dwIndex0, DWORD dwIndex1, DWORD dwIndex2);
-
-	// change height map size to power of 2 + 1
-	bool CheckSquare(int n);
-	int ResizeMap(int n);
+	void CreateLeafNodeIndexList();
 
 	// calc function
 	void CalcVertexColor(Vector3 vLightDir);
-
-public: // temp : for set obj y pos
-	float GetHeightMap(int row, int col);
-
-private:
-	float GetHeightVertex(UINT index);
-
-	// temp : for picking
-	std::vector<UINT> UpdateVertexIdxList;
-	float changeHeight = 10.0f;
-	float radius = 10.0f;
 	void UpdateVertexHeight(Vector3 centerPos);
-	void FindChangeVertex(Vector3 centerPos, int pickNodeIdx);
 
-	// save height map to binary file
-	void SaveHeightMap();
-
-	// temp : for tilling
-	int tileTextureNum = 0;
-	void TillingTexture(Vector3 centerPos);
-	void SetAlphaTexture();
-
+	// temp
+	void ObjectSpawn(Vector3 spawnPos);
 public:
 	void Init() override;
 	void Update() override;

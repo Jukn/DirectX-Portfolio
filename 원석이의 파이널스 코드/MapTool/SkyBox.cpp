@@ -4,8 +4,8 @@
 void SkyBox::Render()
 {
 	shader->GetSRV("Texture0")->SetResource(texture->GetShaderResourceView().Get());
-	shader->GetMatrix("view")->SetMatrix((float*)&Camera::viewMatrix);
-	shader->GetMatrix("projection")->SetMatrix((float*)&Camera::projectionMatrix);
+	shader->GetMatrix("view")->SetMatrix((float*)&CameraManager::GetInstance().GetMainCamera()->viewMatrix);
+	shader->GetMatrix("projection")->SetMatrix((float*)&CameraManager::GetInstance().GetMainCamera()->projectionMatrix);
 
 	UINT stride = skyMesh->GetVertexBuffer()->GetStride();
 	UINT offset = skyMesh->GetIndexBuffer()->GetOffset();
@@ -19,7 +19,7 @@ void SkyBox::Render()
 SkyBox::SkyBox()
 {
 	shader = std::make_unique<Shader>(L"MapToolShader/SkyBox.fx");
-	texture = ResourceManager::GetInstance().GetTexture(L"sky", L"../../Res/Textures/SkyCubeMap.png");
+	texture = ResourceManager::GetInstance().GetTexture(L"sky", L"../../Res/Textures/Sky01.jpg");
 
 	skyMesh = ResourceManager::GetInstance().Get<Mesh>(L"Sphere");
 }

@@ -274,6 +274,12 @@
     <ClInclude Include="Scene.h">
       <Filter>소스 파일\Engine\Scene</Filter>
     </ClInclude>
+    <ClInclude Include="Collision.h">
+      <Filter>소스 파일\Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="CameraManager.h">
+      <Filter>소스 파일\Engine\Manager</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -437,6 +443,12 @@
     </ClCompile>
     <ClCompile Include="Scene.cpp">
       <Filter>소스 파일\Engine\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Collision.cpp">
+      <Filter>소스 파일\Collision</Filter>
+    </ClCompile>
+    <ClCompile Include="CameraManager.cpp">
+      <Filter>소스 파일\Engine\Manager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

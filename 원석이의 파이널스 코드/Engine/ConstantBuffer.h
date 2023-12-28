@@ -14,7 +14,10 @@ public:
 		this->device = device;
 		this->immediateContext = immediateContext;
 	}
-	~ConstantBuffer(){}
+	~ConstantBuffer()
+	{
+		constantBuffer.Reset();
+	}
 
 public:
 	ComPtr<ID3D11Buffer> GetConstantBuffer() { return constantBuffer; }
@@ -31,7 +34,7 @@ public:
 		HRESULT hr = device->CreateBuffer(&desc, NULL, constantBuffer.ReleaseAndGetAddressOf());
 
 		if(FAILED(hr))
-			ShowErrorMessage(hr);
+			Utils::ShowErrorMessage(hr);
 	}
 
 	void CopyData(const T& data)

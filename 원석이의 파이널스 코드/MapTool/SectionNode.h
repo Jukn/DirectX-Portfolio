@@ -1,6 +1,19 @@
 #pragma once
 
 class GridMesh;
+class SectionNode;
+
+struct SectionNodeDesc
+{
+	std::shared_ptr<SectionNode> pParent;
+	
+	UINT LT;
+	UINT RT;
+	UINT LB;
+	UINT RB;
+	
+	UINT colNum;
+};
 
 class SectionNode : public std::enable_shared_from_this<SectionNode>
 {
@@ -9,7 +22,10 @@ private:
 public:
 	bool isLeafNode = false;
 	int depth = 0;
-	int nodeIndex = 0;
+	UINT nodeIndex = 0;
+	UINT lodLevel = 0;
+	UINT lodType = 0;
+
 	Cube boundingBox;
 	Vector2 element;
 
@@ -24,10 +40,17 @@ public:
 	std::vector<std::shared_ptr<SectionNode>> childNodeList;
 	std::vector<std::shared_ptr<SectionNode>> neighborNodeList;
 
+private:
+	Vector2 GetHeight();
+
 public:
 	void Render();
 
 	void SetVertexBuffer();
 	void UpdateVertexBuffer();
+	void SetBoundingBox();
+
+	SectionNode();
+	SectionNode(SectionNodeDesc& desc);
 };
 

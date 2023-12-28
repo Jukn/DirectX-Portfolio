@@ -150,7 +150,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="DebugDrawer.h" />
-    <ClInclude Include="Frustum.h" />
+    <ClInclude Include="HeightMap.h" />
     <ClInclude Include="MapTool.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="Picking.h" />
@@ -158,13 +158,14 @@
     <ClInclude Include="SectionNode.h" />
     <ClInclude Include="SkyBox.h" />
     <ClInclude Include="SpaceDivideTree.h" />
+    <ClInclude Include="Splatting.h" />
+    <ClInclude Include="StaticLOD.h" />
     <ClInclude Include="Terrain.h" />
-    <ClInclude Include="TestCamera.h" />
     <ClInclude Include="WinMain.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DebugDrawer.cpp" />
-    <ClCompile Include="Frustum.cpp" />
+    <ClCompile Include="HeightMap.cpp" />
     <ClCompile Include="MapTool.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
@@ -177,8 +178,9 @@
     <ClCompile Include="SectionNode.cpp" />
     <ClCompile Include="SkyBox.cpp" />
     <ClCompile Include="SpaceDivideTree.cpp" />
+    <ClCompile Include="Splatting.cpp" />
+    <ClCompile Include="StaticLOD.cpp" />
     <ClCompile Include="Terrain.cpp" />
-    <ClCompile Include="TestCamera.cpp" />
     <ClCompile Include="WinMain.cpp" />
   </ItemGroup>
   <ItemGroup>
