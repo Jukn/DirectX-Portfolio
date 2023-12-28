@@ -1,14 +1,19 @@
 #pragma once
 
+class SectionNode;
+
 class Picking
 {
-private:
-	Ray		    ray;
+public:
+	std::vector<UINT> UpdateVertexIdxList;
+	std::vector<SHORT> UpdateNodeIdxList;
 
 public:
-	void UpdateRay();
-	bool PickTriangle(Vector3 v0, Vector3 v1, Vector3 v2);
+	void FindChangeVertex(Vector3 centerPos, float findRange, int leafNodeNum
+							, std::shared_ptr<SectionNode>& pickNode
+							, std::vector<PNCTVertex>& vertexList);
 
-	Ray& GetRay() { return ray; }
+	std::shared_ptr<SectionNode>& FindPickFace(Ray& ray, std::vector<UINT>& leafNodeIdxList, std::map<int, std::shared_ptr<SectionNode>>& leafNodeMap
+						, OUT Vector3& pickPoint);
 };
 

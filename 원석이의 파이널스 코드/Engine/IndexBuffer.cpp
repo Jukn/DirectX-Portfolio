@@ -20,10 +20,19 @@ void IndexBuffer::CreateIndexBuffer(const std::vector<UINT>& indices)
 
 	HRESULT hr = Global::g_device->CreateBuffer(&indexBufferDesc, &indexData, indexBuffer.ReleaseAndGetAddressOf());
 	if (FAILED(hr))
-		ShowErrorMessage(hr);
+		Utils::ShowErrorMessage(hr);
 }
 
 void IndexBuffer::PushData()
 {
 	Global::g_immediateContext->IASetIndexBuffer(indexBuffer.Get(), DXGI_FORMAT_R32_UINT, 0);
+}
+
+IndexBuffer::IndexBuffer()
+{
+}
+
+IndexBuffer::~IndexBuffer()
+{
+	indexBuffer.Reset();
 }

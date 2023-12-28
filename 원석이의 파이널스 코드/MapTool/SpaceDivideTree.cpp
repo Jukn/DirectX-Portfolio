@@ -3,24 +3,26 @@
 
 #include "SectionNode.h"
 #include "Terrain.h"
+#include "StaticLOD.h"
 
 #include "RenderMgr.h"
-#include "Frustum.h"
 #include "DebugDrawer.h"
 
-// temp : for picking
-void SpaceDivideTree::UpdateVertex()
+void SpaceDivideTree::UpdateVertex(std::vector<SHORT> updateNodeIdxList)
 {
-    for (auto& node : leafNodeMap)
+    for (auto& idx : updateNodeIdxList)
     {
-        UpdateVertexList(node.second);
-        CreateBoundingBox(node.second);
-        node.second->UpdateVertexBuffer();
+        auto& node = leafNodeMap[idx];
+
+        UpdateVertexList(node);
+        node->SetBoundingBox();
+        node->UpdateVertexBuffer();
     }
 }
 
 SpaceDivideTree::SpaceDivideTree(std::shared_ptr<Terrain> owner) : terrain(owner)
 {
+    staticLOD = std::make_shared<StaticLOD>();
 }
 
 SpaceDivideTree::~SpaceDivideTree()
@@ -33,22 +35,7 @@ SpaceDivideTree::~SpaceDivideTree()
 
 void SpaceDivideTree::Init()
 {
-
-	// temp : make shared resource 
 	{
-		shader = std::make_shared<Shader>(terrain.lock()->shaderFilePath);
-
-		texture = std::make_shared<Texture>();
-		texture->Load(terrain.lock()->textureFilePath);
-
-        // temp : create render mgr
-        renderMgr = std::make_shared<RenderMgr>();
-        renderMgr->Init(shader);
-
-        // temp : create frustum
-        frustum = std::make_shared<Frustum>();
-
-        // temp : for debug
         debugDraw = std::make_shared<DebugDrawer>();
 	}
 
@@ -60,99 +47,84 @@ void SpaceDivideTree::Init()
     // set neighbor node
     SetNeighborNode();
 
-    auto box = leafNodeMap[0]->boundingBox;
-    UINT leafNodeRowNum = box.max.x - box.min.x;
-    UINT leafNodeColNum = box.max.z - box.min.z;
-    CreateIndexBuffer(leafNodeRowNum, leafNodeColNum);
+    // lod
+    staticLOD->SetLod(terrain.lock()->rowNum, maxDepth);
 }
 
 void SpaceDivideTree::Update()
 {
+    debugDraw->Update();
+
     //temp
+    if (InputManager::GetInstance().GetKeyState(DIK_P) == KeyState::PUSH)
     {
-        // show mouse cursor point
-        Vector2 mousePos = InputManager::GetInstance().GetMousePos();
-        float mousePoses[2] = {mousePos.x, mousePos.y};
-        ImGui::InputFloat2("Mouse Cursor Pos", &mousePoses[0]);
-        //
-
-        renderMgr->Update();
-        frustum->Update();
-        debugDraw->Update();
-
-        if (InputManager::GetInstance().GetKeyState(DIK_P) == KeyState::PUSH)
+        // draw frustum
         {
-            //insert debug data to debugDraw
-            for (int i = 0; i < drawNodeIndexList.size(); ++i)
-            {
-                auto& box = leafNodeMap[drawNodeIndexList[i]]->boundingBox;
-                debugDraw->DrawBox(box, Vector4(1, 0, 0, 0));
-            }
+            auto& frustum = CameraManager::GetInstance().GetMainCamera()->GetFrustum();
+    
+            std::vector<Vector3> points1;
+            std::vector<Vector3> points2;
+            std::vector<Vector3> points3;
+            std::vector<Vector3> points4;
+            std::vector<Vector3> points5;
+            std::vector<Vector3> points6;
+            points1.push_back(frustum.frustumCorners[1]);
+            points1.push_back(frustum.frustumCorners[2]);
+            points1.push_back(frustum.frustumCorners[0]);
+            points1.push_back(frustum.frustumCorners[3]);
+    
+            points2.push_back(frustum.frustumCorners[5]);
+            points2.push_back(frustum.frustumCorners[6]);
+            points2.push_back(frustum.frustumCorners[4]);
+            points2.push_back(frustum.frustumCorners[7]);
+    
+            points3.push_back(frustum.frustumCorners[5]);
+            points3.push_back(frustum.frustumCorners[1]);
+            points3.push_back(frustum.frustumCorners[4]);
+            points3.push_back(frustum.frustumCorners[0]);
+    
+            points4.push_back(frustum.frustumCorners[2]);
+            points4.push_back(frustum.frustumCorners[6]);
+            points4.push_back(frustum.frustumCorners[3]);
+            points4.push_back(frustum.frustumCorners[7]);
+    
+            points5.push_back(frustum.frustumCorners[5]);
+            points5.push_back(frustum.frustumCorners[6]);
+            points5.push_back(frustum.frustumCorners[1]);
+            points5.push_back(frustum.frustumCorners[2]);
+    
+            points6.push_back(frustum.frustumCorners[0]);
+            points6.push_back(frustum.frustumCorners[3]);
+            points6.push_back(frustum.frustumCorners[4]);
+            points6.push_back(frustum.frustumCorners[7]);
+    
+            debugDraw->DrawRect(points1, Vector4(0, 1, 0, 0));
+            debugDraw->DrawRect(points2, Vector4(0, 1, 0, 0));
+            debugDraw->DrawRect(points3, Vector4(0, 1, 0, 0));
+            debugDraw->DrawRect(points4, Vector4(0, 1, 0, 0));
+            debugDraw->DrawRect(points5, Vector4(0, 1, 0, 0));
+            debugDraw->DrawRect(points6, Vector4(0, 1, 0, 0));
+        }
 
-            // draw frustum
-            {
-                std::vector<Vector3> points1;
-                std::vector<Vector3> points2;
-                std::vector<Vector3> points3;
-                std::vector<Vector3> points4;
-                std::vector<Vector3> points5;
-                std::vector<Vector3> points6;
-                points1.push_back(frustum->frustumCorners[1]);
-                points1.push_back(frustum->frustumCorners[2]);
-                points1.push_back(frustum->frustumCorners[0]);
-                points1.push_back(frustum->frustumCorners[3]);
-
-                points2.push_back(frustum->frustumCorners[5]);
-                points2.push_back(frustum->frustumCorners[6]);
-                points2.push_back(frustum->frustumCorners[4]);
-                points2.push_back(frustum->frustumCorners[7]);
-
-                points3.push_back(frustum->frustumCorners[5]);
-                points3.push_back(frustum->frustumCorners[1]);
-                points3.push_back(frustum->frustumCorners[4]);
-                points3.push_back(frustum->frustumCorners[0]);
-
-                points4.push_back(frustum->frustumCorners[2]);
-                points4.push_back(frustum->frustumCorners[6]);
-                points4.push_back(frustum->frustumCorners[3]);
-                points4.push_back(frustum->frustumCorners[7]);
-
-                points5.push_back(frustum->frustumCorners[5]);
-                points5.push_back(frustum->frustumCorners[6]);
-                points5.push_back(frustum->frustumCorners[1]);
-                points5.push_back(frustum->frustumCorners[2]);
-
-                points6.push_back(frustum->frustumCorners[0]);
-                points6.push_back(frustum->frustumCorners[3]);
-                points6.push_back(frustum->frustumCorners[4]);
-                points6.push_back(frustum->frustumCorners[7]);
-
-                debugDraw->DrawRect(points1, Vector4(0, 1, 0, 0));
-                debugDraw->DrawRect(points2, Vector4(0, 1, 0, 0));
-                debugDraw->DrawRect(points3, Vector4(0, 1, 0, 0));
-                debugDraw->DrawRect(points4, Vector4(0, 1, 0, 0));
-                debugDraw->DrawRect(points5, Vector4(0, 1, 0, 0));
-                debugDraw->DrawRect(points6, Vector4(0, 1, 0, 0));
-            }
+        // draw box
+        {
+            for(auto& box : leafNodeMap)
+				debugDraw->DrawBox(box.second->boundingBox, Vector4(1, 0, 0, 0));
         }
     }
-
+    
 	FindDrawNode();
 }
 
+
 void SpaceDivideTree::Render()
 {
-    shader->GetSRV("MapBaseTexture")->SetResource(texture->GetShaderResourceView().Get());
-
-    shader->GetSRV("MapAlphaTexture")->SetResource(terrain.lock()->alphaTexture->GetShaderResourceView().Get());
-
-    shader->GetSRV("Texture1")->SetResource(terrain.lock()->texture1->GetShaderResourceView().Get());
-    shader->GetSRV("Texture2")->SetResource(terrain.lock()->texture2->GetShaderResourceView().Get());
-    shader->GetSRV("Texture3")->SetResource(terrain.lock()->texture3->GetShaderResourceView().Get());
-    shader->GetSRV("Texture4")->SetResource(terrain.lock()->texture4->GetShaderResourceView().Get());
-
 	for (auto& index : drawNodeIndexList)
 	{
+        auto& node = leafNodeMap[index];
+
+        node->indexBuffer = staticLOD->GetLodIndexBuffer(node);
+
 		leafNodeMap[index]->Render();
 	}
 
@@ -168,13 +140,15 @@ void SpaceDivideTree::FindDrawNode()
     drawNodeIndexList.clear();
 
     bool isDraw = false;
+    auto& frustum = CameraManager::GetInstance().GetMainCamera()->GetFrustum();
+
     for (int i = 0; i < leafNodeMap.size(); ++i)
     {
         isDraw = true;
 
-        for (int j = 0; j < 8; ++j)
+        for (int j = 0; j < 6; ++j)
         {
-            if (leafNodeMap[i]->boundingBox.ToPlane(frustum->planes[j]) == CollisionPos::Behind)
+            if (!Collision::CubeToPlane(leafNodeMap[i]->boundingBox, frustum.planes[j]))
             {
                 isDraw = false;
                 break;
@@ -190,29 +164,6 @@ void SpaceDivideTree::FindDrawNode()
 // -------------------------------------------------------------------------------
 // ------------------------------build tree functions ----------------------------
 // -------------------------------------------------------------------------------
-
-void SpaceDivideTree::CreateBoundingBox(std::shared_ptr<SectionNode> pNode)
-{
-	auto& conerIndexList = pNode->cornerIndexList;
-
-	DWORD dwV0 = conerIndexList[0];
-	DWORD dwV1 = conerIndexList[3];
-
-	Vector2 vHeight = GetHeightFromNode(pNode);
-
-	Vector3 min = Vector3::Zero;
-	Vector3 max = Vector3::Zero;
-
-	min.x = terrain.lock()->vertices[dwV0].position.x;
-	min.y = vHeight.y;
-	min.z = terrain.lock()->vertices[dwV1].position.z;
-
-	max.x = terrain.lock()->vertices[dwV1].position.x;
-	max.y = vHeight.x;
-	max.z = terrain.lock()->vertices[dwV0].position.z;
-
-	pNode->boundingBox.SetCube(min, max);
-}
 
 void SpaceDivideTree::BuildTree(std::shared_ptr<SectionNode> pNode)
 {
@@ -238,7 +189,8 @@ bool SpaceDivideTree::SubDivide(std::shared_ptr<SectionNode> pNode)
         UpdateVertexList(pNode);
 
         pNode->SetVertexBuffer();
-        pNode->shader = shader;
+        pNode->SetBoundingBox();
+        pNode->shader = terrain.lock()->shader;
 
         leafNodeMap.insert(std::make_pair(pNode->nodeIndex, pNode));
 
@@ -349,51 +301,15 @@ void SpaceDivideTree::UpdateVertexList(std::shared_ptr<SectionNode> pNode)
     pNode->vertices.resize((iEndCol - iStartCol + 1) * (iEndRow - iStartRow + 1));
 
     int iIndex = 0;
+    auto& terrainVertexList = terrain.lock()->vertices;
     for (int iRow = iStartRow; iRow <= iEndRow; iRow++)
     {
         for (int iCol = iStartCol; iCol <= iEndCol; iCol++)
         {
             int iCurrentIndex = iRow * iNumCols + iCol;
-            pNode->vertices[iIndex++] = terrain.lock()->vertices[iCurrentIndex];
+            pNode->vertices[iIndex++] = terrainVertexList[iCurrentIndex];
         }
     }
-}
-
-Vector2 SpaceDivideTree::GetHeightFromNode(std::shared_ptr<SectionNode> pNode)
-{
-    DWORD dwTL = pNode->cornerIndexList[0];
-    DWORD dwTR = pNode->cornerIndexList[1];
-    DWORD dwBL = pNode->cornerIndexList[2];
-    DWORD dwBR = pNode->cornerIndexList[3];
-
-    auto map = terrain.lock();
-    DWORD dwWidth = terrain.lock()->colNum;
-
-    DWORD dwStartCol = dwTL % dwWidth;
-    DWORD dwEndCol = dwTR % dwWidth;
-    DWORD dwStartRow = dwTL / dwWidth;
-    DWORD dwEndRow = dwBL / dwWidth;
-
-    Vector2 vHeight;
-    vHeight.x = -99999999.0f;
-    vHeight.y = 99999999.0f;
-
-    for (int dwRow = dwStartRow; dwRow <= dwEndRow; dwRow++)
-    {
-        for (int dwCol = dwStartCol; dwCol <= dwEndCol; dwCol++)
-        {
-            DWORD dwCurrent = dwRow * dwWidth + dwCol;
-            if (map->vertices[dwCurrent].position.y > vHeight.x)
-            {
-                vHeight.x = map->vertices[dwCurrent].position.y;
-            }
-            if (map->vertices[dwCurrent].position.y < vHeight.y)
-            {
-                vHeight.y = map->vertices[dwCurrent].position.y;
-            }
-        }
-    }
-    return vHeight;
 }
 
 UINT SpaceDivideTree::CheckSize(UINT dwSize)
@@ -425,67 +341,16 @@ UINT SpaceDivideTree::CheckSize(UINT dwSize)
 
 std::shared_ptr<SectionNode> SpaceDivideTree::CreateNode(std::shared_ptr<SectionNode> pParent, DWORD LT, DWORD RT, DWORD LB, DWORD RB)
 {
-    std::shared_ptr<SectionNode> NewNode = std::make_shared<SectionNode>();
+    SectionNodeDesc desc;
 
-    NewNode->parentNode = pParent;
-    if(pParent != nullptr)
-        NewNode->depth = pParent->depth + 1;
-    
-    NewNode->cornerIndexList.resize(4);
-    NewNode->cornerIndexList[0] = LT;
-    NewNode->cornerIndexList[1] = RT;
-    NewNode->cornerIndexList[2] = LB;
-    NewNode->cornerIndexList[3] = RB;
+    desc.pParent = pParent;
+    desc.LT = LT;
+    desc.RT = RT;
+    desc.LB = LB;
+    desc.RB = RB;
+    desc.colNum = terrain.lock()->colNum;
 
-    //set node index
-    ldiv_t divVal = ldiv((long)LT, (long)terrain.lock()->colNum);
-    NewNode->element.x = divVal.rem / (RT - LT);
-    NewNode->element.y = divVal.quot / (RT - LT);
-
-    UINT dwNumPatchCount = (UINT)pow(2.0f, (float)NewNode->depth);
-    NewNode->nodeIndex = NewNode->element.y * dwNumPatchCount + NewNode->element.x;
-
-    CreateBoundingBox(NewNode);
+    std::shared_ptr<SectionNode> NewNode = std::make_shared<SectionNode>(desc);
 
     return NewNode;
-}
-
-void SpaceDivideTree::CreateIndexBuffer(UINT rowCellNum, UINT colCellNum)
-{
-    if (leafNodeIndexBuffer == nullptr)
-    {
-        leafNodeIndexList;
-
-        UINT faceCount = rowCellNum * colCellNum * 2;
-        leafNodeIndexList.resize(faceCount * 3);
-
-        UINT rowNum = rowCellNum + 1;
-        UINT colNum = colCellNum + 1;
-
-        UINT iIndex = 0;
-        for (UINT iRow = 0; iRow < rowCellNum; ++iRow)
-        {
-            for (UINT iCol = 0; iCol < colCellNum; ++iCol)
-            {
-				UINT nextCol = iCol + 1;
-				UINT nextRow = iRow + 1;
-
-                leafNodeIndexList[iIndex + 0] = iRow * colNum + iCol;
-                leafNodeIndexList[iIndex + 1] = iRow * colNum + nextCol;
-                leafNodeIndexList[iIndex + 2] = nextRow * colNum + iCol;
-
-                leafNodeIndexList[iIndex + 3] = leafNodeIndexList[iIndex + 2];
-                leafNodeIndexList[iIndex + 4] = leafNodeIndexList[iIndex + 1];
-                leafNodeIndexList[iIndex + 5] = nextRow * colNum + nextCol;
-
-				iIndex += 6;
-			}
-		}
-
-        leafNodeIndexBuffer = std::make_shared<IndexBuffer>();
-        leafNodeIndexBuffer->CreateIndexBuffer(leafNodeIndexList);
-    }
-
-    for (auto& node : leafNodeMap)
-        node.second->indexBuffer = leafNodeIndexBuffer;
 }

@@ -144,27 +144,27 @@ void DebugDrawer::DrawRect(std::vector<Vector3>& points, Color color)
 
 void DebugDrawer::Update()
 {
+	ImGui::InputInt("Pass", &pass);
+
+	if (pass < 0)
+		pass = 0;
+
+	if (pass > 1)
+		pass = 1;
+
 	if (InputManager::GetInstance().GetKeyState(DIK_I) == KeyState::PUSH)
 	{
 		vertexBufferList.clear();
 		indexBufferList.clear();
 	}
-
-	ImGui::InputInt("Pass", &pass);
-
-	if(pass < 0)
-		pass = 0;
-
-	if(pass > 1)
-		pass = 1;
 }
 
 void DebugDrawer::Render()
 {
 	Matrix world = Matrix::Identity;
 	shader->GetMatrix("World")->SetMatrix((float*)&world);
-	shader->GetMatrix("View")->SetMatrix((float*)&Camera::viewMatrix);
-	shader->GetMatrix("Projection")->SetMatrix((float*)&Camera::projectionMatrix);
+	shader->GetMatrix("View")->SetMatrix((float*)&CameraManager::GetInstance().GetMainCamera()->viewMatrix);
+	shader->GetMatrix("Projection")->SetMatrix((float*)&CameraManager::GetInstance().GetMainCamera()->projectionMatrix);
 
 	for (int i = 0; i < vertexBufferList.size(); i++)
 	{
