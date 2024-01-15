@@ -1,0 +1,112 @@
+@startuml engine diagram
+
+/'
+    pch.h에는 direct x, fmod, fbxsdk 와 같은 외부 라이브러리와 
+    windows.h, vector 등 자주 사용하는 헤더파일을 포함시킨다.
+    추가로 편의를 위해 만든 convenience, global 헤더를 포함한다.
+'/
+
+/'
+    Engine에서 사용하는 일반적인 type, struct, enum class는 각 헤더 파일을 따로 정의하였으며
+    vertex data만 따로 정의한 VertexData.h를 만들었다.
+    또한 pipeline, engine, resource별 헤더를 모아둔 헤더 파일들을 정의해두었다. 
+'/
+
+/'
+    외부 라이브러리지만 lib가 아닌 .h, .cpp로 제공된 simple math, tinyxml은
+    이름 별 폴더를 만들어 정리하였다.
+'/
+
+/'
+    모든 클래스 관계를 정의한것이 아니라 전체적인 구조를 파악하기 위한 클래스 관계만 정의하였다.
+'/
+
+note right of Component
+    Component는 GameObject에 부착되어 기능을 구현하는 클래스들의 베이스 클래스이다.
+    Component는 Component를 직접 상속 받아 각 오브젝트당 1개씩만 존재가능한 fixed component와
+    사용자가 직접 정의한 MonoBehaviour를 상속받은 script로 나뉜다.
+end note
+class Component
+class Animator
+class Camera
+class MeshRenderer
+class Transform
+class MonoBehaviour 
+class GameObject
+{
+    array<Component, ComponentTypeCount> components
+    vector<MonoBehaviour> scripts
+}
+
+note right of Scene
+    Scene은 GameObject들의 집합이다.
+    Scene은 SceneManager에서 관리된다.
+end note
+class Scene
+class SceneManager
+{
+    shared_ptr<Scene> currentScene
+}
+
+Animator --> Component
+Camera --> Component
+MeshRenderer --> Component
+Transform --> Component
+MonoBehaviour --> Component
+Component --* GameObject
+
+GameObject --* Scene
+Scene --* SceneManager
+
+
+note right of ResourceBase
+    각 리소스들은 ResourceBase를 상속받아 구현되었다.
+    모든 리소스들은 고유한 타입을 가지고 있으며 이를 이용해 Resource Manager에서 관리한다.
+end note
+class ResourceBase
+class Animation
+class Material
+class Mesh
+class Shader
+class Texture
+class ResourceManager
+{
+    ' using KeyObjMap = std::unordered_map<std::wstring, std::shared_ptr<ResourceBase>>;
+    array<KeyObjMap, ResourceTypeCount> resources
+}
+
+Animation --> ResourceBase
+Material --> ResourceBase
+Mesh --> ResourceBase
+Shader --> ResourceBase
+Texture --> ResourceBase
+ResourceBase --* ResourceManager
+
+
+
+note right of Pipeline
+    Pipeline은 DirectX에서 사용하는 pipeline을 구현한 클래스이다.
+    Pipeline은 InputLayout, VertexShader, PixelShader, RasterizerState, BlendState를 가지고 있으며
+    기존 graphics의 render함수에서 하던 기능을 래핑한 클래스이다.
+end note
+note right of RenderManager
+    RenderManager는 CurrentScene에서 렌더 가능한 오브젝트를 추출한뒤.
+    각 오브젝트의 정보로 PipelineInfo를 만들어 Pipeline에 전달한 뒤
+    pipeline을 사용해 렌더링을 수행한다.
+end note
+class InputLayout
+class VertexShader
+class PixelShader
+class RasterizerState
+class BlendState
+class Pipeline
+class RenderManager
+
+InputLayout --* Pipeline
+VertexShader --* Pipeline
+PixelShader --* Pipeline
+RasterizerState --* Pipeline
+BlendState --* Pipeline
+Pipeline --* RenderManager
+
+@enduml
